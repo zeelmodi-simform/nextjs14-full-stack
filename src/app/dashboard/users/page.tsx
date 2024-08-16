@@ -1,25 +1,18 @@
-'use client'
-
-import { DataTable } from "@/components/DataTable";
 import Header from "@/components/Header";
 import SearchBar from "@/components/SearchBar";
-import TablePagination from "@/components/TablePagination";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardFooter } from "@/components/ui/card";
+import UsersDataTable from "@/components/UsersDataTable";
+import { fetchUsers } from "@/lib/data";
 import { IUser } from "@/lib/types";
-import { EyeIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
-import { ChangeEvent, useState } from "react";
 
 type Props = {}
 
-const UsersPage = (props: Props) => {
+const UsersPage = async (props: Props) => {
 
-  const [search, setSearch] = useState("")
-  const [currentPage, setCurrentPage] = useState(1)
-  const [usersPerPage] = useState(10)
+  // const [search, setSearch] = useState("")
+  // const [currentPage, setCurrentPage] = useState(1)
+  // const [usersPerPage] = useState(10)
 
   const users: IUser[] = [
     {
@@ -120,93 +113,32 @@ const UsersPage = (props: Props) => {
     },
   ];
     
-  const filteredUsers = users.filter((user) => user.name.toLowerCase().includes(search.toLowerCase()))
-  const indexOfLastUser = currentPage * usersPerPage
-  const indexOfFirstUser = indexOfLastUser - usersPerPage
-  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser)
-  const totalPages = Math.ceil(filteredUsers.length / usersPerPage)
+  // const filteredUsers = users.filter((user) => user.name.toLowerCase().includes(search.toLowerCase()))
+  // const indexOfLastUser = currentPage * usersPerPage
+  // const indexOfFirstUser = indexOfLastUser - usersPerPage
+  // const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser)
+  // const totalPages = Math.ceil(filteredUsers.length / usersPerPage)
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber)
+    // setCurrentPage(pageNumber)
   }
-  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
-    setCurrentPage(1)
-  }
+  const handleSearch = () => {
+    // setSearch(e.target.value)
+    // setCurrentPage(1)
+  }  
 
-  // console.log({currentUsers});
-  
-  const getNameAvatar = (name: string) => {
-    const nameArray = name.split(" ")
-    return nameArray.map((word) => word.charAt(0).toUpperCase()).join("")
-  }
+  const usersList = await fetchUsers();
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <Header title="Users" />
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">          
-          <SearchBar placeholder="Search users..." value={ search } onChange={ handleSearch } />
+          <SearchBar placeholder="Search users..." value={ '' } onChange={ handleSearch } />
           <Link href={ `/dashboard/users/add` }>
             <Button>Create New User</Button>
           </Link>
         </div>
-        <Card>
-          <DataTable
-            data={ users }
-            columns={ [
-              {
-                label: "Name",
-                accessor: "name",
-                className: "font-medium", 
-                render: (name: string) => {
-                  return (
-                    <div className="flex items-center gap-2">
-                      <div className="h-8 w-8 flex items-center justify-center">
-                        <Avatar >
-                          <AvatarFallback>{ getNameAvatar(name) }</AvatarFallback>
-                        </Avatar>
-                      </div>
-                      <span>{ name }</span>
-                    </div>
-                  )
-                }
-               },
-              { label: "Email", accessor: "email" },
-              { label: "Created At", accessor: "createdAt", },
-              {
-                label: "Role",
-                accessor: "role",
-                render: (role: string) => <Badge variant={ role === "Admin" ? "primary" : "secondary" }>{ role }</Badge>,
-              },
-              {
-                label: "Status",
-                accessor: "status",
-                render: (status: string) => <Badge variant={ status === "active" ? "success" : "destructive" }>{ status }</Badge>,
-              },
-              {
-                label: "Actions",
-                accessor: "id",
-                render: (id: string | number) => (
-                  <div className="flex items-center gap-2">
-                    <Link href={`/dashboard/users/${id}`}>
-                    <Button variant="ghost" size="icon">
-                      <EyeIcon className="h-4 w-4" />
-                      <span className="sr-only">View</span>
-                    </Button>
-                    </Link>
-                    <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10">
-                      <TrashIcon className="h-4 w-4" />
-                      <span className="sr-only">Delete</span>
-                    </Button>
-                  </div>
-                ),
-              },
-            ] }
-          />
-          <CardFooter>
-            <TablePagination />
-          </CardFooter>
-        </Card>
+        <UsersDataTable users={users} />
       </div>
     </main>
   );
