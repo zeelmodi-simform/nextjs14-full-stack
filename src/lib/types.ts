@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { ReactElement } from "react";
 
 export interface ISideBarItem {
@@ -9,12 +10,17 @@ export interface ISideBarItem {
 }
 
 export interface IUser {
-    id: number | string;
-    name: string;
+    _id: Types.ObjectId;
+    username: string;
     email: string;
-    createdAt: string;
-    status: string;
-    role: string;
+    password: string;
+    img: string;
+    isAdmin: boolean;
+    isActive: boolean;
+    phone: string;
+    v?: number;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export interface IProduct {

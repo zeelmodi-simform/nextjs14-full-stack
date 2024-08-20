@@ -5,9 +5,7 @@ import { connectToDB } from "./dbConnection";
 export const fetchUsers = async () => {
     try {
         await connectToDB()
-        const users = await User.find({});
-        console.log({users});
-        
+        const users = await User.find({});        
         return users;
     } catch (error) {
         console.log({error});

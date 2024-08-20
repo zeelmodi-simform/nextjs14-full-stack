@@ -17,8 +17,8 @@ type Props = {
 const UsersDataTable = ({ users }: Props) => {
 
     const getNameAvatar = (name: string) => {
-        const nameArray = name.split(" ")
-        return nameArray.map((word) => word.charAt(0).toUpperCase()).join("")
+        const nameArray = name?.split(" ")
+        return nameArray?.map((word) => word.charAt(0).toUpperCase()).join("")
     }
 
     const handlePageChange = (pageNumber: number) => {
@@ -28,11 +28,12 @@ const UsersDataTable = ({ users }: Props) => {
     return (
         <Card>
             <DataTable
+                rowKey='_id'
                 data={ users }
                 columns={ [
                     {
                         label: "Name",
-                        accessor: "name",
+                        accessor: "username",
                         className: "font-medium",
                         render: (name: string) => {
                             return (
@@ -48,26 +49,26 @@ const UsersDataTable = ({ users }: Props) => {
                         }
                     },
                     { label: "Email", accessor: "email" },
-                    { label: "Created At", accessor: "createdAt", },
+                    { label: "Created At", accessor: "createdAt", render: (date: any) => <span>{ date?.toString().slice(4, 16) }</span> },
                     {
                         label: "Role",
-                        accessor: "role",
-                        render: (role: string) => <Badge variant={ role === "Admin" ? "primary" : "secondary" }>{ role }</Badge>,
+                        accessor: "isAdmin",
+                        render: (isAdmin: string) => <Badge variant={ isAdmin ? "primary" : "secondary" }>{ isAdmin ? 'Admin' : 'Client' }</Badge>,
                     },
                     {
                         label: "Status",
-                        accessor: "status",
-                        render: (status: string) => <Badge variant={ status === "active" ? "success" : "destructive" }>{ status }</Badge>,
+                        accessor: "isActive",
+                        render: (isActive: string) => <Badge variant={ isActive ? "success" : "destructive" }>{ isActive ? 'active' : 'passive' }</Badge>,
                     },
                     {
                         label: "Actions",
-                        accessor: "id",
+                        accessor: "_id",
                         render: (id: string | number) => (
                             <div className="flex items-center gap-2">
                                 <Link href={ `/dashboard/users/${id}` }>
                                     <Button variant="ghost" size="icon">
                                         <EyeIcon className="h-4 w-4" />
-                                        <span className="sr-only">View</span>
+                                        <span className="sr-only">View</span> 
                                     </Button>
                                 </Link>
                                 <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10">

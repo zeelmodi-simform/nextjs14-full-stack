@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { FileIcon } from "lucide-react";
 
 // interface DataTableProps<TData, TValue> {
 //   columns: ColumnDef<TData, TValue>[]
@@ -23,12 +24,14 @@ import {
 
 interface DataTableProps<TData, TValue> {
   columns: any
-  data: any
+  data: any,
+  rowKey?: string,
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  rowKey = '_id'
 }: DataTableProps<TData, TValue>) {
 //   const table = useReactTable({
 //     data,
@@ -84,13 +87,24 @@ export function DataTable<TData, TValue>({
               </TableCell>
             </TableRow>
           )} */}
-          { data.map((row: any) => (
-            <TableRow key={ row.id }>
+          
+          { data?.length > 0 ? data.map((row: any) => (
+            <TableRow key={ row?.[rowKey] }>
               { columns.map((column: any) => (
                 <TableCell key={ column.accessor }>{ column?.render ? column.render(row[column?.accessor], row) : row[column.accessor] }</TableCell>
               )) }
             </TableRow>
-          )) }
+          )) : (
+            <TableRow>
+              <TableCell colSpan={ columns.length } className="h-24 text-center">
+                <div className="flex flex-col items-center justify-center p-8">
+                  <FileIcon className="h-12 w-12 text-muted-foreground" />
+                  <h3 className="mt-4 text-lg font-medium">No data found</h3>
+                  <p className="mt-2 text-muted-foreground">Try adjusting your search or filters.</p>
+                </div>
+              </TableCell>
+            </TableRow>
+          ) }
         </TableBody>
       </Table>
     </div>
