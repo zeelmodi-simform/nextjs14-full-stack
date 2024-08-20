@@ -37,8 +37,8 @@ export function DataTable<TData, TValue>({
 //     data,
 //     columns,
 //     getCoreRowModel: getCoreRowModel(),
-    //   })    
-
+  //   })
+    
   return (
     <div className="rounded-md border mb-2">
       <Table>
@@ -59,10 +59,10 @@ export function DataTable<TData, TValue>({
               })}
             </TableRow>
           ))} */}
-          <TableRow>
+          <TableRow key='header-row'>
                       
             { columns.map((column: any) => (
-              <TableHead key={ column.key }>{ column.label }</TableHead>
+              <TableHead key={ column.accessor }>{ column.label }</TableHead>
             )) }
           </TableRow>
         </TableHeader>
@@ -95,7 +95,7 @@ export function DataTable<TData, TValue>({
               )) }
             </TableRow>
           )) : (
-            <TableRow>
+            <TableRow key='no-data-row'>
               <TableCell colSpan={ columns.length } className="h-24 text-center">
                 <div className="flex flex-col items-center justify-center p-8">
                   <FileIcon className="h-12 w-12 text-muted-foreground" />

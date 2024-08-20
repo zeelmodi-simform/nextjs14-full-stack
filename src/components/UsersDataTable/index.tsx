@@ -14,7 +14,7 @@ type Props = {
     users: IUser[]
 }
 
-const UsersDataTable = ({ users }: Props) => {
+const UsersDataTable = ({ users }: Props) => {    
 
     const getNameAvatar = (name: string) => {
         const nameArray = name?.split(" ")
@@ -49,7 +49,7 @@ const UsersDataTable = ({ users }: Props) => {
                         }
                     },
                     { label: "Email", accessor: "email" },
-                    { label: "Created At", accessor: "createdAt", render: (date: any) => <span>{ date?.toString().slice(4, 16) }</span> },
+                    { label: "Created At", accessor: "createdAt", render: (date: any) => <span>{ new Date(date).toString().slice(4,16) }</span> },
                     {
                         label: "Role",
                         accessor: "isAdmin",

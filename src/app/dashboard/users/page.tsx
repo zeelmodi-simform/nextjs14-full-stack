@@ -8,7 +8,7 @@ import Link from "next/link";
 
 type Props = {}
 
-const UsersPage = async (props: Props) => {
+const UsersPage = async ({searchParams} : {searchParams: { search: string}}) => {
 
   // const [search, setSearch] = useState("")
   // const [currentPage, setCurrentPage] = useState(1)
@@ -28,14 +28,16 @@ const UsersPage = async (props: Props) => {
     // setCurrentPage(1)
   }  
 
-  const users: IUser[] = await fetchUsers();
+  const searchTerm = searchParams.search || '';  
+
+  const users: IUser[] = await fetchUsers(searchTerm);
   
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <Header title="Users" />
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">          
-          <SearchBar placeholder="Search users..." value={ '' } onChange={ handleSearch } />
+          <SearchBar placeholder="Search users..." />
           <Link href={ `/dashboard/users/add` }>
             <Button>Create New User</Button>
           </Link>
