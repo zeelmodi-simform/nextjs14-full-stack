@@ -143,4 +143,4 @@ const TablePagination = ({
     );
 };
 
-export default TablePagination
+export default TablePagination;

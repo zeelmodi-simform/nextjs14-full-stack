@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardFooter } from '@/components/ui/card';
+import { formatDate } from '@/lib/formatData.util';
 import { IUser } from '@/lib/types';
 import { EyeIcon, TrashIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -46,7 +47,7 @@ const UsersDataTable = ({ users, totalCount }: Props) => {
                         }
                     },
                     { label: "Email", accessor: "email" },
-                    { label: "Created At", accessor: "createdAt", render: (date: any) => <span>{ new Date(date).toString().slice(4,16) }</span> },
+                    { label: "Created At", accessor: "createdAt", render: (date: any) => <span>{ formatDate(date) }</span> },
                     {
                         label: "Role",
                         accessor: "isAdmin",

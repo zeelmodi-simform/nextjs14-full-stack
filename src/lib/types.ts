@@ -24,11 +24,14 @@ export interface IUser {
 }
 
 export interface IProduct {
-    id: number | string;
-    name: string;
-    price: number;
+    _id: Types.ObjectId;
+    title: string;
     description: string;
+    price: number;
+    img: string;
+    size: string;
     stock: number;
-    createdAt: string;
-    images?: string[];
+    v?: number;
+    createdAt?: Date;
+    updatedAt?: Date;
 }

@@ -1,11 +1,15 @@
+import { Product } from "@/models/product.model";
 import { User } from "@/models/user.model";
 import { connectToDB } from "./dbConnection";
 
 const ITEM_PER_PAGE = 2;
 
+(async () => {
+    await connectToDB()
+})()
+
 export const fetchUsers = async (searchTerm: string, page: number, limit: number = ITEM_PER_PAGE ) => {
     try {
-        await connectToDB()
 
         const regex = new RegExp(searchTerm, 'i');
         const query = {username: {$regex: regex}};
@@ -17,3 +21,16 @@ export const fetchUsers = async (searchTerm: string, page: number, limit: number
         throw new Error('Failed to fetch users!')
     }
 }
+
+export const fetchProducts = async (searchTerm: string, page: number, limit: number = ITEM_PER_PAGE) => {
+    try {
+        const regex = new RegExp(searchTerm, 'i');
+        const query = { title: { $regex: regex } };
+        const totalCount = await Product.countDocuments(query);
+        const products = await Product.find(query).limit(limit).skip(limit * (page - 1));
+        return { products, totalCount };
+    } catch (error) {
+        console.log({ error });
+        throw new Error('Failed to fetch products!')
+    }
+};
