@@ -3,12 +3,11 @@ import SearchBar from "@/components/SearchBar";
 import { Button } from "@/components/ui/button";
 import UsersDataTable from "@/components/UsersDataTable";
 import { fetchUsers } from "@/lib/data";
-import { IUser } from "@/lib/types";
 import Link from "next/link";
 
 type Props = {}
 
-const UsersPage = async ({searchParams} : {searchParams: { search: string}}) => {
+const UsersPage = async ({searchParams} : {searchParams: { search: string, page: number, limit?: number}}) => {
 
   // const [search, setSearch] = useState("")
   // const [currentPage, setCurrentPage] = useState(1)
@@ -29,8 +28,10 @@ const UsersPage = async ({searchParams} : {searchParams: { search: string}}) => 
   }  
 
   const searchTerm = searchParams.search || '';  
+  const page = searchParams.page || 1;
+  const limit = searchParams.limit || 2;
 
-  const users: IUser[] = await fetchUsers(searchTerm);
+  const { users, totalCount } = await fetchUsers(searchTerm, page, limit);
   
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
@@ -42,7 +43,7 @@ const UsersPage = async ({searchParams} : {searchParams: { search: string}}) => 
             <Button>Create New User</Button>
           </Link>
         </div>
-        <UsersDataTable users={JSON.parse(JSON.stringify(users))} />
+        <UsersDataTable users={JSON.parse(JSON.stringify(users))} totalCount={totalCount} />
       </div>
     </main>
   );

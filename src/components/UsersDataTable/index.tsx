@@ -11,18 +11,15 @@ import { DataTable } from '../DataTable/index';
 import TablePagination from '../TablePagination/index';
 
 type Props = {
-    users: IUser[]
+    users: IUser[];
+    totalCount: number
 }
 
-const UsersDataTable = ({ users }: Props) => {    
+const UsersDataTable = ({ users, totalCount }: Props) => {    
 
     const getNameAvatar = (name: string) => {
         const nameArray = name?.split(" ")
         return nameArray?.map((word) => word.charAt(0).toUpperCase()).join("")
-    }
-
-    const handlePageChange = (pageNumber: number) => {
-        // setCurrentPage(pageNumber)
     }
 
     return (
@@ -81,7 +78,7 @@ const UsersDataTable = ({ users }: Props) => {
                 ] }
             />
             <CardFooter>
-                <TablePagination currentPage={ 1 } totalPages={ 5 } handlePageChange={ handlePageChange } />
+                <TablePagination totalCount={ totalCount } />
             </CardFooter>
         </Card>
     );
