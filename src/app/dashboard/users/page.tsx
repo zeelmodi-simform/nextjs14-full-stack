@@ -29,7 +29,7 @@ const UsersPage = async ({searchParams} : {searchParams: { search: string, page:
 
   const searchTerm = searchParams.search || '';  
   const page = searchParams.page || 1;
-  const limit = searchParams.limit || 2;
+  const limit = searchParams.limit || 5;
 
   const { users, totalCount } = await fetchUsers(searchTerm, page, limit);
   

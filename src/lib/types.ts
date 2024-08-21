@@ -18,6 +18,7 @@ export interface IUser {
     isAdmin: boolean;
     isActive: boolean;
     phone: string;
+    address?: string;
     v?: number;
     createdAt?: Date;
     updatedAt?: Date;
@@ -35,3 +36,5 @@ export interface IProduct {
     createdAt?: Date;
     updatedAt?: Date;
 }
+
+export type CreateUserType = Omit<IUser, '_id' | 'v' | 'createdAt' | 'updatedAt' | 'img'>;

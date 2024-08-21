@@ -11,7 +11,7 @@ const ProductsPage = async ({ searchParams }: { searchParams: { search: string, 
 
   const searchTerm = searchParams.search || '';
   const page = searchParams.page || 1;
-  const limit = searchParams.limit || 2;
+  const limit = searchParams.limit || 5;
 
 
   const { products, totalCount } = await fetchProducts(searchTerm, page, limit)

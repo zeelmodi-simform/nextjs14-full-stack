@@ -20,7 +20,7 @@ const TablePagination = ({
     const pathname = usePathname()
     
     const currentPage = parseInt(searchParams.get('page') || '1');
-    const ITEMS_PER_PAGE = parseInt(searchParams.get('limit') || '2');
+    const ITEMS_PER_PAGE = parseInt(searchParams.get('limit') || '10');
 
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 

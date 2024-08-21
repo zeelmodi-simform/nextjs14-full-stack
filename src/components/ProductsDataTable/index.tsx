@@ -52,7 +52,7 @@ const ProductsDataTable = ({ products, totalCount }: Props) => {
           { label: 'Stock', accessor: 'stock' },
           {
             label: "Actions",
-            accessor: "id",
+            accessor: "_id",
             render: (id: string | number) => (
               <div className="flex items-center gap-2">
                 <Link href={ `/dashboard/products/${id}` }>

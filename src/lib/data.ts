@@ -2,19 +2,17 @@ import { Product } from "@/models/product.model";
 import { User } from "@/models/user.model";
 import { connectToDB } from "./dbConnection";
 
-const ITEM_PER_PAGE = 2;
-
 (async () => {
     await connectToDB()
 })()
 
-export const fetchUsers = async (searchTerm: string, page: number, limit: number = ITEM_PER_PAGE ) => {
+export const fetchUsers = async (searchTerm: string, page: number, limit: number ) => {
     try {
 
         const regex = new RegExp(searchTerm, 'i');
         const query = {username: {$regex: regex}};
         const totalCount = await User.countDocuments(query);
-        const users = await User.find(query).limit(limit).skip(limit * (page - 1));        
+        const users = await User.find(query).sort({updatedAt: -1}).limit(limit).skip(limit * (page - 1));        
         return { users, totalCount };
     } catch (error) {
         console.log({error});
@@ -22,7 +20,7 @@ export const fetchUsers = async (searchTerm: string, page: number, limit: number
     }
 }
 
-export const fetchProducts = async (searchTerm: string, page: number, limit: number = ITEM_PER_PAGE) => {
+export const fetchProducts = async (searchTerm: string, page: number, limit: number) => {
     try {
         const regex = new RegExp(searchTerm, 'i');
         const query = { title: { $regex: regex } };
