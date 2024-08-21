@@ -29,6 +29,7 @@ export interface IProduct {
     title: string;
     description: string;
     price: number;
+    color?: string;
     img: string;
     size: string;
     stock: number;
@@ -38,3 +39,5 @@ export interface IProduct {
 }
 
 export type CreateUserType = Omit<IUser, '_id' | 'v' | 'createdAt' | 'updatedAt' | 'img'>;
+
+export type CreateProductType = Omit<IProduct, '_id' | 'v' | 'createdAt' | 'updatedAt'>;

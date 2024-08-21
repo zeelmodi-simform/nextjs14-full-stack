@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { DataTable } from '../DataTable/index';
 
 import TablePagination from '@/components/TablePagination';
+import { deleteProduct } from '@/lib/actions';
 import { formatDate } from '@/lib/formatData.util';
 import { IProduct } from '@/lib/types';
 
@@ -61,10 +62,13 @@ const ProductsDataTable = ({ products, totalCount }: Props) => {
                     <span className="sr-only">View</span>
                   </Button>
                 </Link>
-                <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10">
-                  <TrashIcon className="h-4 w-4" />
-                  <span className="sr-only">Delete</span>
-                </Button>
+                <form action={deleteProduct}>
+                  <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10">
+                    <input type="hidden" name="id" value={id} />
+                    <TrashIcon className="h-4 w-4" />
+                    <span className="sr-only">Delete</span>
+                  </Button>
+                </form>
               </div>
             ),
           },

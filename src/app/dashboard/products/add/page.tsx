@@ -1,5 +1,3 @@
-'use client'
-
 import Header from "@/components/Header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -7,24 +5,21 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { addProduct } from "@/lib/actions"
 
 type Props = {}
 
 const AddProductPage = (props: Props) => {
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-  }
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <Header title="Add New Product" />
       <Card className="w-full max-w-screen-lg">
         <CardContent>
-          <form onSubmit={ handleSubmit } className="grid gap-4 mt-4">
+          <form action={addProduct} className="grid gap-4 mt-4">
             <div className="grid gap-2">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" type="text" required />
+              <Input id="title" name="title" type="text" required />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="description">Description</Label>
