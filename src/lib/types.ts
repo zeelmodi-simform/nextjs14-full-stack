@@ -39,5 +39,7 @@ export interface IProduct {
 }
 
 export type CreateUserType = Omit<IUser, '_id' | 'v' | 'createdAt' | 'updatedAt' | 'img'>;
+export type UpdateUserType = Omit<IUser, 'v' | 'createdAt' | 'updatedAt' | 'img'>;
 
 export type CreateProductType = Omit<IProduct, '_id' | 'v' | 'createdAt' | 'updatedAt'>;
+export type UpdateProductType = Omit<IProduct, 'v' | 'createdAt' | 'updatedAt'>;

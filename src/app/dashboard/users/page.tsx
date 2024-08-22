@@ -9,23 +9,6 @@ type Props = {}
 
 const UsersPage = async ({searchParams} : {searchParams: { search: string, page: number, limit?: number}}) => {
 
-  // const [search, setSearch] = useState("")
-  // const [currentPage, setCurrentPage] = useState(1)
-  // const [usersPerPage] = useState(10)
-
-    
-  // const filteredUsers = users.filter((user) => user.name.toLowerCase().includes(search.toLowerCase()))
-  // const indexOfLastUser = currentPage * usersPerPage
-  // const indexOfFirstUser = indexOfLastUser - usersPerPage
-  // const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser)
-  // const totalPages = Math.ceil(filteredUsers.length / usersPerPage)
-  const handlePageChange = (pageNumber: number) => {
-    // setCurrentPage(pageNumber)
-  }
-  const handleSearch = () => {
-    // setSearch(e.target.value)
-    // setCurrentPage(1)
-  }  
 
   const searchTerm = searchParams.search || '';  
   const page = searchParams.page || 1;

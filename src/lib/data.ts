@@ -20,6 +20,16 @@ export const fetchUsers = async (searchTerm: string, page: number, limit: number
     }
 }
 
+export const fetchUser = async (id: string) => {
+    try {
+        const user = await User.findById(id);
+        return user;
+    } catch (error) {
+        console.log(error);
+        throw new Error('Failed to fetch user!')
+    }
+}
+
 export const fetchProducts = async (searchTerm: string, page: number, limit: number) => {
     try {
         const regex = new RegExp(searchTerm, 'i');
@@ -32,3 +42,13 @@ export const fetchProducts = async (searchTerm: string, page: number, limit: num
         throw new Error('Failed to fetch products!')
     }
 };
+
+export const fetchProduct = async (id: string) => {
+    try {
+        const product = await Product.findById(id);
+        return product;
+    } catch (error) {
+        console.log(error);
+        throw new Error('Failed to fetch product!')
+    }
+}

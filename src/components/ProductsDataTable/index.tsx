@@ -63,8 +63,8 @@ const ProductsDataTable = ({ products, totalCount }: Props) => {
                   </Button>
                 </Link>
                 <form action={deleteProduct}>
+                  <input type="hidden" name="id" value={id} />
                   <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10">
-                    <input type="hidden" name="id" value={id} />
                     <TrashIcon className="h-4 w-4" />
                     <span className="sr-only">Delete</span>
                   </Button>

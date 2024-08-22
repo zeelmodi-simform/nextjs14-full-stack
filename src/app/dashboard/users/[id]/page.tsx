@@ -1,5 +1,3 @@
-'use client'
-
 import Header from "@/components/Header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -8,49 +6,52 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { updateUser } from "@/lib/actions"
+import { fetchUser } from "@/lib/data"
+import { IUser } from "@/lib/types"
 import { User } from "lucide-react"
 
-type Props = {}
-
-const UserPage = (props: Props) => {
-
-    const handleSubmit = (e) => {
-        
+type Props = {
+    params: {
+        id: string
     }
+}
+
+const UserPage = async ({params}: Props) => {
+    const { id } = params;
+    const user: IUser = await fetchUser(id);
+
     return (
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
             <Header title="Users Details" />
             <Card className="w-full max-w-screen-lg">
                 <CardContent>
-                    <form onSubmit={ handleSubmit } className="grid gap-4 mt-4">
+                    <form action={ updateUser } className="grid gap-4 mt-4" >
+                        <input type="hidden" name="_id" value={user._id.toString()} />
                         <div className="flex items-center gap-4">
                             <Avatar className="h-20 w-20">
                                 <AvatarImage src="/placeholder-user.jpg" alt="User avatar" />
                                 <AvatarFallback><User size={32} /></AvatarFallback>
                             </Avatar>
                             <div className="grid gap-1">
-                                <div className="text-xl font-semibold">John Doe</div>
+                                <div className="text-xl font-semibold">{user.username}</div>
                             </div>
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="name">Name</Label>
-                            <Input id="name" type="text" required />
+                            <Label htmlFor="username">Name</Label>
+                            <Input id="username" name="username" type="text" required defaultValue={user.username} />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" name="email" required />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input id="password" type="password" name="password" required />
+                            <Input id="email" type="email" name="email" required defaultValue={user.email} />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="phone">Phone</Label>
-                            <Input id="phone" type="tel" name="phone" />
+                            <Input id="phone" type="tel" name="phone" defaultValue={user.phone} />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="isAdmin" >Is Admin?</Label>
-                            <Select id="isAdmin" >
+                            <Select id="isAdmin" name="isAdmin" defaultValue={`${user.isAdmin}`}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select a role" />
                                 </SelectTrigger>
@@ -62,7 +63,7 @@ const UserPage = (props: Props) => {
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="isActive" >Is Active?</Label>
-                            <Select id="isActive" >
+                            <Select id="isActive" name="isActive" defaultValue={`${user.isActive}`}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select" />
                                 </SelectTrigger>
@@ -74,7 +75,7 @@ const UserPage = (props: Props) => {
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="address">Address</Label>
-                            <Textarea id="address" name="address" />
+                            <Textarea id="address" name="address" defaultValue={user.address} />
                         </div>
                         <Button type="submit">Submit</Button>
                     </form>

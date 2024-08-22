@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardFooter } from '@/components/ui/card';
+import { deleteUser } from '@/lib/actions';
 import { formatDate } from '@/lib/formatData.util';
 import { IUser } from '@/lib/types';
 import { EyeIcon, TrashIcon } from 'lucide-react';
@@ -69,10 +70,13 @@ const UsersDataTable = ({ users, totalCount }: Props) => {
                                         <span className="sr-only">View</span> 
                                     </Button>
                                 </Link>
+                                <form action={ deleteUser }>
+                                <input type="hidden" name="id" value={id} />
                                 <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10">
                                     <TrashIcon className="h-4 w-4" />
                                     <span className="sr-only">Delete</span>
                                 </Button>
+                                </form>
                             </div>
                         ),
                     },

@@ -1,10 +1,9 @@
 'use server'
 
-
 import { User } from "@/models/user.model";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { CreateProductType, CreateUserType } from "./types";
+import { CreateProductType, CreateUserType, UpdateProductType, UpdateUserType } from "./types";
 
 import { Product } from "@/models/product.model";
 import bcrypt from 'bcrypt';
@@ -37,6 +36,51 @@ export const addUser = async (formData: FormData) => {
 
     revalidatePath('/dashboard/users')
     redirect('/dashboard/users')
+}
+
+export const updateUser = async (formData: FormData) => {
+    const { _id, username, email, phone, address, isAdmin, isActive }: UpdateUserType = Object.fromEntries(formData) as unknown as UpdateUserType;
+
+    try {
+        const updateFields: Partial<UpdateUserType> = {
+            username,
+            email,
+            phone,
+            address,
+            isAdmin,
+            isActive
+        };
+
+        (Object.keys(updateFields) as (keyof UpdateUserType)[]).forEach((key) => {
+            if (updateFields[key] === '' || updateFields[key] === undefined) {
+                delete updateFields[key];
+            }
+        });
+
+        await User.findByIdAndUpdate(_id, updateFields, {
+            new: true,
+            runValidators: true
+        })
+    } catch (error) {
+        console.log(error);
+        throw new Error('Failed to update user!')
+    }
+
+    revalidatePath('/dashboard/users')
+    redirect('/dashboard/users')
+}
+
+export const deleteUser = async (formData: FormData) => {
+    const { id } = Object.fromEntries(formData);
+
+    try {
+        await User.findByIdAndDelete(id)
+    } catch (error) {
+        console.log(error);
+        throw new Error('Failed to delete user!')
+    }
+
+    revalidatePath('/dashboard/users')
 }
 
 export const addProduct = async (formData: FormData) => {
@@ -76,4 +120,36 @@ export const deleteProduct = async (formData: FormData) => {
     }
 
     revalidatePath('/dashboard/products')
+}
+
+export const updateProduct = async (formData: FormData) => {
+    const { _id, title, price, description, stock, color, size }: UpdateProductType = Object.fromEntries(formData) as unknown as UpdateProductType;
+
+    try {
+        const updateFields: Partial<UpdateProductType> = {
+            title,
+            price,
+            description,
+            stock,
+            color,
+            size
+        };
+
+        (Object.keys(updateFields) as (keyof UpdateProductType)[]).forEach((key) => {
+            if (updateFields[key] === '' || updateFields[key] === undefined) {
+                delete updateFields[key];
+            }
+        });
+
+        await Product.findByIdAndUpdate(_id, updateFields, {
+            new: true,
+            runValidators: true
+        })
+    } catch (error) {
+        console.log(error);
+        throw new Error('Failed to update product!')
+    }
+
+    revalidatePath('/dashboard/products')
+    redirect('/dashboard/products')
 }
