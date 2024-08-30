@@ -43,3 +43,8 @@ export type UpdateUserType = Omit<IUser, 'v' | 'createdAt' | 'updatedAt' | 'img'
 
 export type CreateProductType = Omit<IProduct, '_id' | 'v' | 'createdAt' | 'updatedAt'>;
 export type UpdateProductType = Omit<IProduct, 'v' | 'createdAt' | 'updatedAt'>;
+
+export interface ICredential {
+    username: string | undefined;
+    password: string | undefined;
+}

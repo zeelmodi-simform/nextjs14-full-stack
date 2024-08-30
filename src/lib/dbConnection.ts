@@ -1,7 +1,9 @@
+import bcrypt from 'bcrypt';
 import mongoose, { ConnectionStates } from "mongoose";
 
 import { Product } from "@/models/product.model";
 import { User } from "@/models/user.model";
+
 
 const connection: { isConnected?: ConnectionStates } = {};
 
@@ -304,7 +306,14 @@ const seedDatabase = async () => {
     const userCount = await User.countDocuments();
     const productsCount = await Product.countDocuments();
     if (userCount === 0) {
-      await User.insertMany(seedUsers);
+      await User.insertMany(seedUsers.map((user) => {
+        return {
+          ...user,
+          password: bcrypt.hashSync(user.password, 10),
+        };
+      }));
+
+      
             
       console.log("Database seeded successfully.");
     } else {

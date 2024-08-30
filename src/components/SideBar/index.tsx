@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -42,7 +43,9 @@ const SideBarItems: ISideBarItem[] = [
   },
 ]
 
-const SideBar = (props: Props) => {
+const SideBar = async (props: Props) => {
+
+  const session = await auth();  
 
   return (
     <div className="hidden border-r bg-muted/40 md:block">

@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { CreateProductType, CreateUserType, UpdateProductType, UpdateUserType } from "./types";
 
+import { signIn } from "@/auth";
 import { Product } from "@/models/product.model";
 import bcrypt from 'bcrypt';
 
@@ -153,3 +154,15 @@ export const updateProduct = async (formData: FormData) => {
     revalidatePath('/dashboard/products')
     redirect('/dashboard/products')
 }
+
+export const authenticate = async (formData: FormData) => {
+    const { email, password } = Object.fromEntries(formData) as { email: string, password: string };
+
+    try {
+        await signIn('credentials', { username: email, password });
+    } catch (error) {
+        console.log(error);
+        // throw new Error('Failed to authenticate user!');
+        return {error: 'Wrong Credentials!'}
+    }
+};
